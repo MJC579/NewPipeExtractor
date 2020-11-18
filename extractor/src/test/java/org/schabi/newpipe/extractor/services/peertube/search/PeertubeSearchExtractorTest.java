@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.schabi.newpipe.DownloaderTestImpl;
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.ListExtractor.InfoItemsPage;
+import org.schabi.newpipe.extractor.MetaInfo;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
@@ -12,6 +13,9 @@ import org.schabi.newpipe.extractor.services.DefaultSearchExtractorTest;
 import org.schabi.newpipe.extractor.services.peertube.PeertubeInstance;
 
 import javax.annotation.Nullable;
+
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.schabi.newpipe.extractor.ServiceList.PeerTube;
@@ -41,6 +45,7 @@ public class PeertubeSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "/search/videos?search=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class PagingTest {

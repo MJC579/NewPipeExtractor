@@ -6,6 +6,7 @@ import com.grack.nanojson.JsonParser;
 import com.grack.nanojson.JsonParserException;
 
 import org.schabi.newpipe.extractor.MediaFormat;
+import org.schabi.newpipe.extractor.MetaInfo;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.downloader.Downloader;
@@ -300,6 +301,12 @@ public class PeertubeStreamExtractor extends StreamExtractor {
         } catch (ParsingException e) {
             return "";
         }
+    }
+
+    @Nonnull
+    @Override
+    public List<MetaInfo> getMetaInfo() {
+        return Collections.emptyList();
     }
 
     private String getRelatedStreamsUrl(final List<String> tags) throws UnsupportedEncodingException {

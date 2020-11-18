@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.schabi.newpipe.DownloaderTestImpl;
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.ListExtractor.InfoItemsPage;
+import org.schabi.newpipe.extractor.MetaInfo;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
@@ -13,6 +14,8 @@ import org.schabi.newpipe.extractor.services.DefaultSearchExtractorTest;
 import javax.annotation.Nullable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.schabi.newpipe.extractor.ServiceList.SoundCloud;
@@ -40,6 +43,7 @@ public class SoundcloudSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "soundcloud.com/search?q=" + urlEncode(QUERY); }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class Tracks extends DefaultSearchExtractorTest {
@@ -61,8 +65,8 @@ public class SoundcloudSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "soundcloud.com/search/tracks?q=" + urlEncode(QUERY); }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
-
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class Users extends DefaultSearchExtractorTest {
@@ -84,8 +88,8 @@ public class SoundcloudSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "soundcloud.com/search/users?q=" + urlEncode(QUERY); }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
-
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.CHANNEL; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class Playlists extends DefaultSearchExtractorTest {
@@ -107,8 +111,8 @@ public class SoundcloudSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "soundcloud.com/search/playlists?q=" + urlEncode(QUERY); }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
-
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.PLAYLIST; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class PagingTest {

@@ -3,12 +3,16 @@ package org.schabi.newpipe.extractor.services.media_ccc.search;
 import org.junit.BeforeClass;
 import org.schabi.newpipe.DownloaderTestImpl;
 import org.schabi.newpipe.extractor.InfoItem;
+import org.schabi.newpipe.extractor.MetaInfo;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
 import org.schabi.newpipe.extractor.services.DefaultSearchExtractorTest;
 
 import javax.annotation.Nullable;
+
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.schabi.newpipe.extractor.ServiceList.MediaCCC;
@@ -35,8 +39,8 @@ public class MediaCCCSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "media.ccc.de/public/events/search?q=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
-
         @Override public boolean expectedHasMoreItems() { return false; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class Conferences extends DefaultSearchExtractorTest {
@@ -58,9 +62,9 @@ public class MediaCCCSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "media.ccc.de/public/events/search?q=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
-
         @Nullable @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.CHANNEL; }
         @Override public boolean expectedHasMoreItems() { return false; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class Events extends DefaultSearchExtractorTest {
@@ -82,8 +86,8 @@ public class MediaCCCSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "media.ccc.de/public/events/search?q=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
-
         @Nullable @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
         @Override public boolean expectedHasMoreItems() { return false; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 }

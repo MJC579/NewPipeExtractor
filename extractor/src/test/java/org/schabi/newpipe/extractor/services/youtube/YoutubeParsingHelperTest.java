@@ -36,4 +36,12 @@ public class YoutubeParsingHelperTest {
         assertEquals(4445767, YoutubeParsingHelper.parseDurationString("1,234:56:07"));
         assertEquals(754, YoutubeParsingHelper.parseDurationString("12:34 "));
     }
+
+    @Test
+    public void testConvertFromGoogleCacheUrl() throws ParsingException {
+        assertEquals("https://mohfw.gov.in/",
+                YoutubeParsingHelper.extractedCachedUrlIfNeeded("https://webcache.googleusercontent.com/search?q=cache:https://mohfw.gov.in/"));
+        assertEquals("https://www.infektionsschutz.de/coronavirus-sars-cov-2.html",
+                YoutubeParsingHelper.extractedCachedUrlIfNeeded("https://www.infektionsschutz.de/coronavirus-sars-cov-2.html"));
+    }
 }

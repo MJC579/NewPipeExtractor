@@ -3,14 +3,17 @@ package org.schabi.newpipe.extractor.services.youtube.search;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.schabi.newpipe.DownloaderTestImpl;
-import org.schabi.newpipe.extractor.InfoItem;
-import org.schabi.newpipe.extractor.ListExtractor;
-import org.schabi.newpipe.extractor.NewPipe;
-import org.schabi.newpipe.extractor.StreamingService;
+import org.schabi.newpipe.extractor.*;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
 import org.schabi.newpipe.extractor.services.DefaultSearchExtractorTest;
+import org.schabi.newpipe.extractor.services.youtube.YoutubeService;
 
 import javax.annotation.Nullable;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static junit.framework.TestCase.assertFalse;
@@ -43,6 +46,7 @@ public class YoutubeSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "youtube.com/results?search_query=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class Channel extends DefaultSearchExtractorTest {
@@ -64,8 +68,8 @@ public class YoutubeSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "youtube.com/results?search_query=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
-
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.CHANNEL; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class Playlists extends DefaultSearchExtractorTest {
@@ -87,7 +91,7 @@ public class YoutubeSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "youtube.com/results?search_query=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
-
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.PLAYLIST; }
     }
 
@@ -110,6 +114,7 @@ public class YoutubeSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "youtube.com/results?search_query=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
 
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
     }
@@ -135,6 +140,7 @@ public class YoutubeSearchExtractorTest {
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return EXPECTED_SUGGESTION; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class CorrectedSearch extends DefaultSearchExtractorTest {
@@ -159,6 +165,7 @@ public class YoutubeSearchExtractorTest {
         @Nullable @Override public String expectedSearchSuggestion() { return EXPECTED_SUGGESTION; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
         @Override public boolean isCorrectedSearch() { return true; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class RandomQueryNoMorePages extends DefaultSearchExtractorTest {
@@ -180,6 +187,7 @@ public class YoutubeSearchExtractorTest {
         @Override public String expectedOriginalUrlContains() { return "youtube.com/results?search_query=" + QUERY; }
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
 
         /*//////////////////////////////////////////////////////////////////////////
         // Test Overrides
@@ -210,5 +218,34 @@ public class YoutubeSearchExtractorTest {
 
             assertNoDuplicatedItems(YouTube, page1, page2);
         }
+    }
+
+    public static class MetaInfoTest extends DefaultSearchExtractorTest {
+        private static SearchExtractor extractor;
+        private static final String QUERY = "Covid";
+
+        @Test
+        public void clarificationTest() throws Exception {
+            NewPipe.init(DownloaderTestImpl.getInstance());
+            extractor = YouTube.getSearchExtractor(QUERY, singletonList(VIDEOS), "");
+            extractor.fetchPage();
+        }
+
+        @Override public String expectedSearchString() { return QUERY; }
+        @Override public String expectedSearchSuggestion() { return null; }
+        @Override public List<MetaInfo> expectedMetaInfo() throws MalformedURLException {
+            return Collections.singletonList(new MetaInfo(
+                    "COVID-19",
+                    "Get the latest information from the WHO about coronavirus.",
+                    Collections.singletonList(new URL("https://www.who.int/emergencies/diseases/novel-coronavirus-2019")),
+                    Collections.singletonList("LEARN MORE")
+            ));
+        }
+        @Override public SearchExtractor extractor() { return extractor; }
+        @Override public StreamingService expectedService() { return YouTube; }
+        @Override public String expectedName() { return QUERY; }
+        @Override public String expectedId() { return QUERY; }
+        @Override public String expectedUrlContains() { return "youtube.com/results?search_query=" + QUERY; }
+        @Override public String expectedOriginalUrlContains() throws Exception { return "youtube.com/results?search_query=" + QUERY; }
     }
 }

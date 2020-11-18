@@ -1,12 +1,19 @@
 package org.schabi.newpipe.extractor.services;
 
 import org.junit.Test;
+import org.schabi.newpipe.extractor.MetaInfo;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
 
 
 import javax.annotation.Nullable;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.schabi.newpipe.extractor.ExtractorAsserts.assertEmpty;
 import static org.schabi.newpipe.extractor.utils.Utils.isNullOrEmpty;
 
@@ -19,6 +26,8 @@ public abstract class DefaultSearchExtractorTest extends DefaultListExtractorTes
     public boolean isCorrectedSearch() {
         return false;
     }
+
+    public abstract List<MetaInfo> expectedMetaInfo() throws MalformedURLException;
 
     @Test
     @Override
@@ -40,5 +49,33 @@ public abstract class DefaultSearchExtractorTest extends DefaultListExtractorTes
     @Test
     public void testSearchCorrected() throws Exception {
         assertEquals(isCorrectedSearch(), extractor().isCorrectedSearch());
+    }
+
+    @Test
+    /**
+     * @see DefaultStreamExtractorTest#testMetaInfo()
+     */
+    public void testMetaInfo() throws Exception {
+        final List<MetaInfo> metaInfoList = extractor().getMetaInfo();
+        final List<MetaInfo> expectedMetaInfoList = expectedMetaInfo();
+
+        for (final MetaInfo expectedMetaInfo : expectedMetaInfoList) {
+            final List<String> texts = metaInfoList.stream().map(MetaInfo::getText).collect(Collectors.toList());
+            final List<String> titles = metaInfoList.stream().map(MetaInfo::getTitle).collect(Collectors.toList());
+            final List<URL> urls = metaInfoList.stream().flatMap(info -> info.getUrls().stream())
+                    .collect(Collectors.toList());
+            final List<String> urlTexts = metaInfoList.stream().flatMap(info -> info.getUrlTexts().stream())
+                    .collect(Collectors.toList());
+
+            assertTrue(texts.contains(expectedMetaInfo.getText()));
+            assertTrue(titles.contains(expectedMetaInfo.getTitle()));
+
+            for (final String expectedUrlText : expectedMetaInfo.getUrlTexts()) {
+                assertTrue(urlTexts.contains(expectedUrlText));
+            }
+            for (final URL expectedUrl : expectedMetaInfo.getUrls()) {
+                assertTrue(urls.contains(expectedUrl));
+            }
+        }
     }
 }

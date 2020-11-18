@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.schabi.newpipe.DownloaderTestImpl;
 import org.schabi.newpipe.extractor.InfoItem;
+import org.schabi.newpipe.extractor.MetaInfo;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
@@ -11,6 +12,8 @@ import org.schabi.newpipe.extractor.services.DefaultSearchExtractorTest;
 import org.schabi.newpipe.extractor.services.youtube.linkHandler.YoutubeSearchQueryHandlerFactory;
 
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -38,6 +41,7 @@ public class YoutubeMusicSearchExtractorTest {
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class MusicVideos extends DefaultSearchExtractorTest {
@@ -60,6 +64,7 @@ public class YoutubeMusicSearchExtractorTest {
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class MusicAlbums extends DefaultSearchExtractorTest {
@@ -82,6 +87,7 @@ public class YoutubeMusicSearchExtractorTest {
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.PLAYLIST; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class MusicPlaylists extends DefaultSearchExtractorTest {
@@ -104,6 +110,7 @@ public class YoutubeMusicSearchExtractorTest {
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.PLAYLIST; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     @Ignore
@@ -127,6 +134,7 @@ public class YoutubeMusicSearchExtractorTest {
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return null; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.CHANNEL; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class Suggestion extends DefaultSearchExtractorTest {
@@ -149,6 +157,7 @@ public class YoutubeMusicSearchExtractorTest {
         @Override public String expectedSearchString() { return QUERY; }
         @Nullable @Override public String expectedSearchSuggestion() { return "mega man x3"; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 
     public static class CorrectedSearch extends DefaultSearchExtractorTest {
@@ -173,5 +182,6 @@ public class YoutubeMusicSearchExtractorTest {
         @Nullable @Override public String expectedSearchSuggestion() { return EXPECTED_SUGGESTION; }
         @Override public InfoItem.InfoType expectedInfoItemType() { return InfoItem.InfoType.STREAM; }
         @Override public boolean isCorrectedSearch() { return true; }
+        @Override public List<MetaInfo> expectedMetaInfo() { return Collections.emptyList(); }
     }
 }
